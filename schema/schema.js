@@ -1,5 +1,6 @@
 const graphql = require('graphql');
-const _ = require('lodash');
+//const _ = require('lodash');
+const axios = require('axios');
 
 const {
     GraphQLObjectType,
@@ -8,10 +9,13 @@ const {
     GraphQLSchema
 } = graphql;
 
+/*
 const users = [
     {id:'123', firstName: 'Bill', age: 23},
     {id:'124', firstName: 'Andy', age: 33}
 ];
+
+*/
 
 
 const UserType = new GraphQLObjectType({
@@ -33,7 +37,9 @@ const RootQuery = new GraphQLObjectType({
             type:UserType,
             args:{id:{type:GraphQLString}},
             resolve(parentValue, args){
-                return _.find(users, {id:args.id});        
+                //return _.find(users, {id:args.id});     
+                return axios.get(`http://localhost:3000/users/${args.id}`)
+                .then(resp=> resp.data); // axis send back data nested under data: tag => Strip it   
             }    
         }
 
