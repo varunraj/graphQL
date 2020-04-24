@@ -58,8 +58,15 @@ const RootQuery = new GraphQLObjectType({
                 return axios.get(`http://localhost:3000/users/${args.id}`)
                 .then(resp=> resp.data); // axis send back data nested under data: tag => Strip it   
             }    
-        }
-
+        },
+        company:{
+            type:CompanyType,
+            args:{ id: { type: GraphQLString}},
+            resolve(parentValue, args){
+                return axios.get(`http://localhost:3000/companies/${args.id}`)
+                .then(resp=> resp.data);
+            }    
+        }     
     }
 }) ;
 
